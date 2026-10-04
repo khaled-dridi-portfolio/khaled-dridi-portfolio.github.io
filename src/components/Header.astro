@@ -10,7 +10,7 @@ const { homePath } = Astro.props;
 <header class="site-header">
   <div class="container site-header__inner">
     <a class="site-header__name" href={homePath} data-preset-home>{site.name}</a>
-    <nav aria-label={t.nav.main}>
+    <nav class="site-header__nav" aria-label={t.nav.main}>
       <ul class="site-nav">
         <li><a href={`${homePath}#projects`} data-preset-home data-hash="#projects">{t.nav.projects}</a></li>
         <li><a href={`${homePath}#experience`} data-preset-home data-hash="#experience">{t.nav.experience}</a></li>

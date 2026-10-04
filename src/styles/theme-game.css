@@ -50,6 +50,7 @@
 [data-theme='game'] .hero__stat dd { color: var(--accent); font-family: var(--font-heading); }
 
 [data-theme='game'] .btn { border-radius: var(--radius-sm); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; }
+[data-theme='game'] [data-contact='email'] { text-transform: none; letter-spacing: 0; }
 [data-theme='game'] .btn--primary { background: var(--accent); box-shadow: 4px 4px 0 var(--accent-2); }
 [data-theme='game'] .btn--primary:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--accent-2); }
 
