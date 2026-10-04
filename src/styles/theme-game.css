@@ -1,0 +1,26 @@
+:root[data-theme='game'] {
+  --bg: #07090f;
+  --surface: #0d1220;
+  --surface-2: #141b2e;
+  --text: #e6f1ff;
+  --muted: #8fa3c4;
+  --border: #22304f;
+  --accent: #39ff88;
+  --accent-2: #ff3cac;
+  --accent-contrast: #04140b;
+  --gradient: linear-gradient(90deg, var(--accent), #22d3ee 50%, var(--accent-2));
+  --font-heading: 'Pixelify Sans', 'JetBrains Mono Variable', monospace;
+  --radius: 4px;
+  --radius-sm: 2px;
+  color-scheme: dark;
+}
+
+[data-theme='game'] .scheme-toggle { display: none; }
+
+/* Per-project title fonts apply on the game theme only. */
+[data-theme='game'] [data-title-font='pixelify-sans'] { font-family: 'Pixelify Sans', var(--font-heading); }
+[data-theme='game'] [data-title-font='orbitron'] { font-family: 'Orbitron', var(--font-heading); }
+[data-theme='game'] [data-title-font='titan-one'] { font-family: 'Titan One', var(--font-heading); }
+[data-theme='game'] [data-title-font='saira-stencil-one'] { font-family: 'Saira Stencil One', var(--font-heading); }
+[data-theme='game'] [data-title-font='fredoka'] { font-family: 'Fredoka Variable', var(--font-heading); }
+[data-theme='game'] [data-title-font='press-start-2p'] { font-family: 'Press Start 2P', var(--font-heading); font-size: 0.8em; }

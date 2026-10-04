@@ -1,0 +1,30 @@
+/* Dark is the default so pages render correctly before/without the scheme script. */
+:root,
+:root[data-scheme='dark'] {
+  --bg: #0f1319;
+  --surface: #161b24;
+  --surface-2: #1d2430;
+  --text: #e8ecf3;
+  --muted: #9aa4b2;
+  --border: #263040;
+  --accent: #22d3ee;
+  --accent-2: #ec4899;
+  --accent-contrast: #04141a;
+  --gradient: linear-gradient(90deg, var(--accent), var(--accent-2));
+  --shadow: 0 10px 30px rgb(0 0 0 / 0.35);
+  color-scheme: dark;
+}
+
+:root[data-scheme='light'] {
+  --bg: #f7f8fb;
+  --surface: #ffffff;
+  --surface-2: #eef1f6;
+  --text: #0f1319;
+  --muted: #4f5b6b;
+  --border: #dde3ec;
+  --accent: #0e7490;
+  --accent-2: #be185d;
+  --accent-contrast: #ffffff;
+  --shadow: 0 10px 30px rgb(15 19 25 / 0.08);
+  color-scheme: light;
+}

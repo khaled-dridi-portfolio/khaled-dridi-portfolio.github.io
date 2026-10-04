@@ -1,0 +1,11 @@
+---
+import { site } from '../config/site';
+import { t } from '../i18n';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <p>© {year} {site.name}</p>
+    <p><a href={`mailto:${site.email}`}>{site.email}</a> · {t.footer.built}</p>
+  </div>
+</footer>

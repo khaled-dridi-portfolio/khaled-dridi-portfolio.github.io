@@ -1,0 +1,90 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/jetbrains-mono';
+import '@fontsource-variable/fredoka';
+import '@fontsource/pixelify-sans';
+import '@fontsource/orbitron';
+import '@fontsource/titan-one';
+import '@fontsource/saira-stencil-one/index.css'; // this package ships no type declaration for its bare import
+import '@fontsource/press-start-2p';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { PRESET_THEMES, PRESET_PATHS } from '../config/presets';
+import { t } from '../i18n';
+import type { PresetKey, Theme } from '../lib/types';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Root-relative path or absolute URL. */
+  ogImage: string;
+  /** 'auto' = decide in the browser from ?from=<preset> (project and catalog pages). */
+  theme: Theme | 'auto';
+  from?: PresetKey;
+  homePath?: string;
+}
+const { title, description, ogImage, theme, from, homePath = '/' } = Astro.props;
+const pathname = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const canonical = new URL(pathname, Astro.site).href;
+const ogImageUrl = new URL(ogImage, Astro.site).href;
+---
+<!doctype html>
+<html
+  lang="en"
+  data-theme={theme}
+  data-from={from}
+  data-preset-themes={JSON.stringify(PRESET_THEMES)}
+  data-preset-paths={JSON.stringify(PRESET_PATHS)}
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        if (root.dataset.theme === 'auto') {
+          var from = new URLSearchParams(location.search).get('from');
+          var themes = JSON.parse(root.dataset.presetThemes || '{}');
+          if (from && Object.prototype.hasOwnProperty.call(themes, from)) {
+            root.dataset.theme = themes[from];
+            root.dataset.from = from;
+          } else {
+            root.dataset.theme = 'clean';
+          }
+        }
+        var scheme = null;
+        try { scheme = localStorage.getItem('scheme'); } catch (e) {}
+        if (scheme !== 'light' && scheme !== 'dark') {
+          scheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        root.dataset.scheme = root.dataset.theme === 'game' ? 'dark' : scheme;
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.skipLink}</a>
+    <Header homePath={homePath} />
+    <main id="main"><slot /></main>
+    <Footer />
+    <script>
+      import { initThemeToggle, applyFromPreset } from '../scripts/theme';
+      initThemeToggle();
+      applyFromPreset();
+    </script>
+  </body>
+</html>

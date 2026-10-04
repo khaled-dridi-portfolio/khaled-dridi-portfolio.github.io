@@ -1,0 +1,26 @@
+---
+import { site } from '../config/site';
+import { t } from '../i18n';
+
+interface Props {
+  homePath: string;
+}
+const { homePath } = Astro.props;
+---
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="site-header__name" href={homePath} data-preset-home>{site.name}</a>
+    <nav aria-label={t.nav.main}>
+      <ul class="site-nav">
+        <li><a href={`${homePath}#projects`} data-preset-home data-hash="#projects">{t.nav.projects}</a></li>
+        <li><a href={`${homePath}#experience`} data-preset-home data-hash="#experience">{t.nav.experience}</a></li>
+        <li><a href={`${homePath}#contact`} data-preset-home data-hash="#contact">{t.nav.contact}</a></li>
+        <li><a href="/projects/" data-keep-from>{t.nav.allProjects}</a></li>
+        <li><a href={site.cv} download>{t.nav.cv}</a></li>
+      </ul>
+    </nav>
+    <button type="button" class="scheme-toggle" data-scheme-toggle aria-label={t.theme.toggle}>
+      <span class="scheme-toggle__icon" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>

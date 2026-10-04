@@ -1,10 +1,8 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { PRESETS } from '../config/presets';
+const preset = PRESETS.default;
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Mohamed Khaled Dridi — Software Engineer</title>
-  </head>
-  <body><p>Coming soon.</p></body>
-</html>
+<BaseLayout title={preset.seo.title} description={preset.seo.description} ogImage="/og/default.png" theme={preset.theme} from={preset.key}>
+  <div class="container"><h1>{preset.headline}</h1></div>
+</BaseLayout>

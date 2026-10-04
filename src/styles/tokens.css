@@ -1,0 +1,14 @@
+:root {
+  --font-body: 'Inter Variable', system-ui, sans-serif;
+  --font-heading: 'Space Grotesk Variable', 'Inter Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --container: 1160px;
+  --gutter: 16px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (min-width: 720px) {
+  :root { --gutter: 32px; }
+}
