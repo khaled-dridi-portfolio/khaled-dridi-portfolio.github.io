@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ProjectCard from './ProjectCard.astro';
+import { t } from '../i18n';
+import type { Category, PresetKey } from '../lib/types';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+  from: PresetKey;
+}
+const { projects, from } = Astro.props;
+const categories = [...new Set(projects.map((p) => p.data.category))] as Category[];
+---
+<div class="project-grid-wrap" data-project-grid>
+  {categories.length > 1 && (
+    <div class="filter-chips" role="group" aria-label={t.projects.filterLabel} hidden>
+      <button type="button" class="chip" aria-pressed="true" data-filter="all">{t.projects.all}</button>
+      {categories.map((c) => (
+        <button type="button" class="chip" aria-pressed="false" data-filter={c}>{t.projects.categories[c]}</button>
+      ))}
+    </div>
+  )}
+  {projects.length === 0 ? (
+    <p class="project-grid__empty" data-empty>{t.projects.empty}</p>
+  ) : (
+    <div class="project-grid">{projects.map((p) => <ProjectCard project={p} from={from} />)}</div>
+  )}
+</div>
+
+<script>
+  import { initCategoryFilters, initPreviewClips } from '../scripts/project-grid';
+  initCategoryFilters();
+  initPreviewClips();
+</script>

@@ -1,8 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
 import { PRESETS } from '../config/presets';
+import { selectForPreset } from '../lib/projects';
 const preset = PRESETS.default;
+const projects = selectForPreset(await getCollection('projects'), { categories: preset.projectCategories, order: preset.projectOrder });
 ---
 <BaseLayout title={preset.seo.title} description={preset.seo.description} ogImage="/og/default.png" theme={preset.theme} from={preset.key}>
   <div class="container"><h1>{preset.headline}</h1></div>
+  <ProjectsSection projects={projects} from={preset.key} />
 </BaseLayout>

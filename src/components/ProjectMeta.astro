@@ -1,0 +1,17 @@
+---
+import { t } from '../i18n';
+import { formatDateRange } from '../lib/projects';
+import type { ProjectType } from '../lib/types';
+
+interface Props {
+  role?: string;
+  type?: ProjectType;
+  startDate?: Date;
+  endDate?: Date;
+}
+const { role, type, startDate, endDate } = Astro.props;
+const parts = [role, type ? t.projects.types[type] : undefined, formatDateRange(startDate, endDate, t.projects.present)].filter(
+  (p): p is string => Boolean(p),
+);
+---
+{parts.length > 0 && <p class="project-meta">{parts.map((part) => <span class="project-meta__item">{part}</span>)}</p>}

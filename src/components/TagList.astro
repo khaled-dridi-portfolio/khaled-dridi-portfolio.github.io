@@ -1,0 +1,14 @@
+---
+interface Props {
+  items: readonly string[];
+  label?: string;
+  variant?: 'tag' | 'feature';
+}
+const { items, label, variant = 'tag' } = Astro.props;
+---
+{items.length > 0 && (
+  <div class:list={['tag-list', `tag-list--${variant}`]}>
+    {label && <p class="tag-list__label">{label}</p>}
+    <ul class="tag-list__items">{items.map((item) => <li class="tag">{item}</li>)}</ul>
+  </div>
+)}
