@@ -1,13 +1,25 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
 import ProjectsSection from '../components/ProjectsSection.astro';
+import Skills from '../components/Skills.astro';
+import Experience from '../components/Experience.astro';
+import Education from '../components/Education.astro';
+import Achievements from '../components/Achievements.astro';
+import Contact from '../components/Contact.astro';
 import { PRESETS } from '../config/presets';
 import { selectForPreset } from '../lib/projects';
 const preset = PRESETS.default;
 const projects = selectForPreset(await getCollection('projects'), { categories: preset.projectCategories, order: preset.projectOrder });
+const experience = (await getCollection('experience')).sort((a, b) => b.data.startDate.getTime() - a.data.startDate.getTime());
 ---
 <BaseLayout title={preset.seo.title} description={preset.seo.description} ogImage="/og/default.png" theme={preset.theme} from={preset.key}>
-  <div class="container"><h1>{preset.headline}</h1></div>
+  <Hero preset={preset} />
   <ProjectsSection projects={projects} from={preset.key} />
+  <Skills />
+  <Experience items={experience} />
+  <Education />
+  <Achievements />
+  <Contact />
 </BaseLayout>

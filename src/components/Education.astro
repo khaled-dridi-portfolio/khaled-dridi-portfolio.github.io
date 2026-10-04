@@ -1,0 +1,18 @@
+---
+import { profile } from '../config/profile';
+import { t } from '../i18n';
+---
+<section id="education" class="section" data-section="education" aria-labelledby="education-title">
+  <div class="container">
+    <h2 id="education-title" class="section__title">{t.sections.education}</h2>
+    <ul class="cards-list">
+      {profile.education.map((e) => (
+        <li class="info-card">
+          <h3 class="info-card__title">{e.school}</h3>
+          <p class="info-card__text">{e.degree}</p>
+          <p class="info-card__meta">{e.period}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

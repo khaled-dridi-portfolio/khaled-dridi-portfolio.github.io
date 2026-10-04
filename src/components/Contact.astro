@@ -1,0 +1,25 @@
+---
+import { site } from '../config/site';
+import { t } from '../i18n';
+---
+<section id="contact" class="section contact" data-section="contact" aria-labelledby="contact-title">
+  <div class="container">
+    <h2 id="contact-title" class="section__title">{t.sections.contact}</h2>
+    <p class="contact__intro">{t.contact.intro}</p>
+    <div class="contact__email">
+      <a class="btn btn--primary" href={`mailto:${site.email}`} data-contact="email">{site.email}</a>
+      <button type="button" class="btn btn--ghost" data-copy={site.email} data-copied-label={t.contact.copied}>{t.contact.copy}</button>
+    </div>
+    <ul class="contact__links">
+      <li><a href={site.phoneHref} data-contact="phone">{site.phone}</a></li>
+      <li><a href={site.linkedin} target="_blank" rel="noopener" data-contact="linkedin">{t.contact.linkedin}</a></li>
+      <li><a href={site.upwork} target="_blank" rel="noopener" data-contact="upwork">{t.contact.upwork}</a></li>
+      <li><a href={site.cv} download data-contact="cv">{t.contact.cv}</a></li>
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { initCopyButtons } from '../scripts/contact';
+  initCopyButtons();
+</script>

@@ -1,0 +1,39 @@
+---
+import type { Cta, Preset } from '../config/presets';
+import { site } from '../config/site';
+
+interface Props {
+  preset: Preset;
+}
+const { preset } = Astro.props;
+const isExternal = (cta: Cta) => cta.href.startsWith('http');
+const ctaAttrs = (cta: Cta) => ({
+  href: cta.href,
+  download: cta.download || undefined,
+  target: isExternal(cta) ? '_blank' : undefined,
+  rel: isExternal(cta) ? 'noopener' : undefined,
+});
+---
+<section id="hero" class="hero" data-section="hero">
+  <div class="hero__bg" aria-hidden="true" data-hero-bg></div>
+  <div class="container hero__inner">
+    <div class="hero__avatar" aria-hidden="true" data-avatar-placeholder>{site.initials}</div>
+    <p class="hero__name">{site.name}</p>
+    <p class="hero__eyebrow">{preset.eyebrow}</p>
+    <h1 class="hero__headline">{preset.headline}</h1>
+    <p class="hero__subline">{preset.subline}</p>
+    <div class="hero__ctas">
+      <a class="btn btn--primary" {...ctaAttrs(preset.primaryCta)} data-primary-cta>{preset.primaryCta.label}</a>
+      {preset.secondaryCta && (
+        <a class="btn btn--ghost" {...ctaAttrs(preset.secondaryCta)} data-secondary-cta>{preset.secondaryCta.label}</a>
+      )}
+    </div>
+    {preset.stats.length > 0 && (
+      <dl class="hero__stats">
+        {preset.stats.map((s) => (
+          <div class="hero__stat"><dt>{s.label}</dt><dd>{s.value}</dd></div>
+        ))}
+      </dl>
+    )}
+  </div>
+</section>

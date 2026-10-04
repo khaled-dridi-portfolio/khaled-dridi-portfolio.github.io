@@ -45,3 +45,56 @@
 .tag-list__items { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .tag { padding: 0.15rem 0.6rem; border-radius: 6px; background: var(--surface-2); font-size: 0.8rem; color: var(--text); }
 .tag-list--feature .tag { border: 1px solid color-mix(in srgb, var(--project-accent, var(--accent)) 45%, transparent); }
+
+/* ---- Hero ---- */
+.hero { position: relative; overflow: hidden; padding-block: clamp(3.5rem, 10vw, 7rem) clamp(3rem, 8vw, 5rem); text-align: center; }
+.hero__bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 55% at 50% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%); }
+.hero__inner { position: relative; display: grid; justify-items: center; gap: 0.9rem; }
+.hero__avatar {
+  display: grid; place-items: center; width: 120px; height: 120px; border-radius: 50%;
+  background: var(--surface-2); border: 2px solid var(--border); color: var(--muted);
+  font-family: var(--font-heading); font-size: 2.5rem; font-weight: 700;
+  box-shadow: 0 0 40px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.hero__name { margin: 0; font-weight: 600; color: var(--muted); }
+.hero__eyebrow { margin: 0; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero__headline { margin: 0; max-width: 20ch; font-size: clamp(2rem, 6vw, 3.75rem); }
+.hero__subline { margin: 0; max-width: 60ch; color: var(--muted); font-size: 1.1rem; }
+.hero__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 0.5rem; }
+.hero__stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin: 1rem 0 0; }
+.hero__stat { min-width: 130px; padding: 0.75rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.hero__stat dt { font-size: 0.8rem; color: var(--muted); }
+.hero__stat dd { margin: 0; font-size: 1.25rem; font-weight: 700; }
+
+/* ---- Skills ---- */
+.skills-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+.skill-group { padding: 1.1rem 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+.skill-group__title { font-size: 1rem; margin-bottom: 0.75rem; }
+.skill-group__items { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.skill-chip { padding: 0.2rem 0.65rem; border-radius: 6px; background: var(--surface-2); font-size: 0.9rem; }
+
+/* ---- Experience ---- */
+.timeline { display: grid; gap: 1.25rem; border-left: 2px solid var(--border); padding-left: 1.25rem; }
+.timeline__item { position: relative; }
+.timeline__item::before { content: ''; position: absolute; left: calc(-1.25rem - 7px); top: 0.45rem; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+.timeline__head { display: grid; gap: 0.1rem; margin-bottom: 0.5rem; }
+.timeline__role { margin: 0; font-size: 1.15rem; }
+.timeline__company { margin: 0; font-weight: 600; color: var(--accent); }
+.timeline__dates { margin: 0; font-size: 0.9rem; color: var(--muted); }
+.timeline__highlights { display: grid; gap: 0.3rem; list-style: disc; padding-left: 1.1rem; color: var(--muted); }
+
+/* ---- Education / achievements ---- */
+.cards-list { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+.info-card { padding: 1.1rem 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+.info-card__title { margin: 0 0 0.3rem; font-size: 1.05rem; }
+.info-card__text { margin: 0; color: var(--muted); }
+.info-card__meta { margin: 0.4rem 0 0; font-size: 0.9rem; font-weight: 600; color: var(--accent); }
+.achievements { display: grid; gap: 0.5rem; margin-bottom: 2rem; }
+.achievement { font-weight: 600; }
+.subsection-title { font-size: 1.2rem; margin-bottom: 1rem; }
+
+/* ---- Contact ---- */
+.contact__intro { margin: 0 0 1.25rem; color: var(--muted); font-size: 1.1rem; }
+.contact__email { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem; }
+.contact__links { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; }
+.contact__links a { font-weight: 600; }

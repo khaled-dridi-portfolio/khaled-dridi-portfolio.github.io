@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDateRange } from '../lib/projects';
+import { t } from '../i18n';
+
+interface Props {
+  items: CollectionEntry<'experience'>[];
+}
+const { items } = Astro.props;
+---
+<section id="experience" class="section" data-section="experience" aria-labelledby="experience-title">
+  <div class="container">
+    <h2 id="experience-title" class="section__title">{t.sections.experience}</h2>
+    <ol class="timeline">
+      {items.map((e) => (
+        <li class="timeline__item" data-experience={e.id}>
+          <div class="timeline__head">
+            <h3 class="timeline__role">{e.data.role}</h3>
+            <p class="timeline__company">{e.data.company}</p>
+            <p class="timeline__dates">{formatDateRange(e.data.startDate, e.data.endDate, t.projects.present)}</p>
+          </div>
+          {e.data.highlights.length > 0 && (
+            <ul class="timeline__highlights">{e.data.highlights.map((h) => <li>{h}</li>)}</ul>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

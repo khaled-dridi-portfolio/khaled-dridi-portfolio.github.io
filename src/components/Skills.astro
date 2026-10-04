@@ -1,0 +1,21 @@
+---
+import { profile } from '../config/profile';
+import { t } from '../i18n';
+---
+<section id="skills" class="section" data-section="skills" aria-labelledby="skills-title">
+  <div class="container">
+    <h2 id="skills-title" class="section__title">{t.sections.skills}</h2>
+    <div class="skills-grid">
+      {profile.skills.map((g) => (
+        <div class="skill-group">
+          <h3 class="skill-group__title">{g.group}</h3>
+          <ul class="skill-group__items">{g.items.map((s) => <li class="skill-chip">{s}</li>)}</ul>
+        </div>
+      ))}
+      <div class="skill-group">
+        <h3 class="skill-group__title">{t.skills.spoken}</h3>
+        <ul class="skill-group__items">{profile.spoken.map((l) => <li class="skill-chip">{l.name} · {l.level}</li>)}</ul>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,21 @@
+---
+import { profile } from '../config/profile';
+import { t } from '../i18n';
+---
+<section id="achievements" class="section" data-section="achievements" aria-labelledby="achievements-title">
+  <div class="container">
+    <h2 id="achievements-title" class="section__title">{t.sections.achievements}</h2>
+    <ul class="achievements">
+      {profile.achievements.map((a) => <li class="achievement">🏆 {a}</li>)}
+    </ul>
+    <h3 class="subsection-title">{t.achievements.hackathons}</h3>
+    <ul class="cards-list">
+      {profile.hackathons.map((h) => (
+        <li class="info-card">
+          <h4 class="info-card__title">{h.name}</h4>
+          <p class="info-card__text">{h.detail}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
