@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from './Hero.astro';
+import ProjectsSection from './ProjectsSection.astro';
+import Skills from './Skills.astro';
+import Experience from './Experience.astro';
+import Education from './Education.astro';
+import Achievements from './Achievements.astro';
+import Contact from './Contact.astro';
+import { getPreset } from '../config/presets';
+import { selectForPreset } from '../lib/projects';
+import type { PresetKey } from '../lib/types';
+
+interface Props {
+  presetKey: PresetKey;
+}
+const preset = getPreset(Astro.props.presetKey);
+const projects = selectForPreset(await getCollection('projects'), {
+  categories: preset.projectCategories,
+  order: preset.projectOrder,
+});
+const experience = (await getCollection('experience'))
+  .filter((e) => !e.data.hideOn.includes(preset.key))
+  .sort((a, b) => b.data.startDate.getTime() - a.data.startDate.getTime());
+---
+<BaseLayout
+  title={preset.seo.title}
+  description={preset.seo.description}
+  ogImage={`/og/${preset.key}.png`}
+  theme={preset.theme}
+  from={preset.key}
+  homePath={preset.path}
+>
+  {preset.sections.map((section) => (
+    <Fragment>
+      {section === 'hero' && <Hero preset={preset} />}
+      {section === 'projects' && <ProjectsSection projects={projects} from={preset.key} />}
+      {section === 'skills' && <Skills />}
+      {section === 'experience' && <Experience items={experience} />}
+      {section === 'education' && <Education />}
+      {section === 'achievements' && <Achievements />}
+      {section === 'contact' && <Contact />}
+    </Fragment>
+  ))}
+</BaseLayout>
