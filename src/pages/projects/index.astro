@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { publishedProjects, allTags } from '../../lib/projects';
+import { site } from '../../config/site';
+import { t } from '../../i18n';
+import type { Category } from '../../lib/types';
+
+const projects = publishedProjects(await getCollection('projects'));
+const featured = projects.filter((p) => p.data.featured);
+const tags = allTags(projects);
+const categories = [...new Set(projects.map((p) => p.data.category))] as Category[];
+---
+<BaseLayout title={`${t.projects.pageTitle} — ${site.name}`} description={t.projects.pageDescription} ogImage="/og/default.png" theme="auto">
+  <section class="section catalog-page">
+    <div class="container">
+      <h1 class="section__title">{t.projects.pageTitle}</h1>
+
+      {featured.length > 0 && (
+        <div class="highlighted" data-highlighted>
+          <h2 class="subsection-title">{t.projects.highlighted}</h2>
+          <div class="project-grid">{featured.map((p) => <ProjectCard project={p} from="default" />)}</div>
+        </div>
+      )}
+
+      <div class="catalog" data-catalog>
+        <div class="catalog__controls" data-catalog-controls hidden>
+          {categories.length > 1 && (
+            <div class="filter-chips" role="group" aria-label={t.projects.filterLabel}>
+              <button type="button" class="chip" aria-pressed="true" data-filter="all">{t.projects.all}</button>
+              {categories.map((c) => (
+                <button type="button" class="chip" aria-pressed="false" data-filter={c}>{t.projects.categories[c]}</button>
+              ))}
+            </div>
+          )}
+          <label class="catalog__field">
+            <span>{t.projects.techFilter}</span>
+            <select data-tech-filter>
+              <option value="">{t.projects.anyTech}</option>
+              {tags.map((tag) => <option value={tag}>{tag}</option>)}
+            </select>
+          </label>
+          <label class="catalog__field">
+            <span>{t.projects.sort}</span>
+            <select data-sort>
+              <option value="newest">{t.projects.sortNewest}</option>
+              <option value="oldest">{t.projects.sortOldest}</option>
+            </select>
+          </label>
+          <p class="catalog__count" aria-live="polite" data-count>{t.projects.count(projects.length)}</p>
+        </div>
+
+        {projects.length === 0 ? (
+          <p class="project-grid__empty" data-empty>{t.projects.empty}</p>
+        ) : (
+          <div class="project-grid" data-catalog-list>{projects.map((p) => <ProjectCard project={p} from="default" />)}</div>
+        )}
+        <p class="project-grid__empty" data-no-match hidden>{t.projects.noMatch}</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { initCatalog } from '../../scripts/catalog';
+  initCatalog();
+</script>

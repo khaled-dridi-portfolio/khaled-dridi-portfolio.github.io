@@ -139,3 +139,11 @@
 .prev-next { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
 .prev-next a { font-weight: 600; text-decoration: none; }
 .prev-next a[rel='next'] { margin-left: auto; text-align: right; }
+
+/* ---- Catalog ---- */
+.highlighted { margin-bottom: 3rem; }
+.catalog__controls { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; margin-bottom: 1.5rem; }
+.catalog__controls .filter-chips { margin: 0; flex-basis: 100%; }
+.catalog__field { display: grid; gap: 0.3rem; font-size: 0.85rem; color: var(--muted); }
+.catalog__field select { min-height: 40px; padding: 0.3rem 0.6rem; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); font: inherit; }
+.catalog__count { margin: 0 0 0 auto; color: var(--muted); }
