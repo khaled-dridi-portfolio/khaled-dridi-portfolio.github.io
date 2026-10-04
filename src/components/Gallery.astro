@@ -1,0 +1,36 @@
+---
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { t } from '../i18n';
+
+interface Props {
+  images: ImageMetadata[];
+  title: string;
+}
+const { images, title } = Astro.props;
+const full = await Promise.all(images.map((src) => getImage({ src, width: 1920 })));
+---
+<section class="gallery" aria-labelledby="gallery-title" data-gallery>
+  <h2 id="gallery-title" class="gallery__title">{t.project.gallery}</h2>
+  <ul class="gallery__grid">
+    {images.map((src, i) => (
+      <li>
+        <a class="gallery__item" href={full[i].src} data-gallery-item>
+          <Image src={src} alt={t.project.screenshot(title, i + 1)} width={640} />
+        </a>
+      </li>
+    ))}
+  </ul>
+  <dialog class="lightbox" aria-label={t.project.gallery} data-lightbox>
+    <button type="button" class="lightbox__close" aria-label={t.project.close} data-lightbox-close>×</button>
+    <button type="button" class="lightbox__nav lightbox__nav--prev" aria-label={t.project.prevImage} data-lightbox-prev>‹</button>
+    <img class="lightbox__img" alt="" data-lightbox-img />
+    <button type="button" class="lightbox__nav lightbox__nav--next" aria-label={t.project.nextImage} data-lightbox-next>›</button>
+    <p class="lightbox__count" data-lightbox-count></p>
+  </dialog>
+</section>
+
+<script>
+  import { initGalleries } from '../scripts/lightbox';
+  initGalleries();
+</script>

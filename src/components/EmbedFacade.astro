@@ -1,0 +1,27 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: string;
+  title: string;
+  label: string;
+  kind: 'video' | 'play';
+  poster?: ImageMetadata;
+  /** Link shown when JavaScript is off. */
+  fallbackHref?: string;
+}
+const { src, title, label, kind, poster, fallbackHref = src } = Astro.props;
+---
+<div class="facade" data-facade={kind} data-embed={src} data-title={title}>
+  {poster && <Image class="facade__poster" src={poster} alt="" width={1280} />}
+  <button type="button" class="facade__load btn btn--primary" data-facade-load>
+    <span aria-hidden="true">▶</span> {label}
+  </button>
+  <noscript><a class="facade__fallback" href={fallbackHref} target="_blank" rel="noopener">{label}</a></noscript>
+</div>
+
+<script>
+  import { initFacades } from '../scripts/facade';
+  initFacades();
+</script>
