@@ -26,14 +26,14 @@ Success criteria:
 | Language | English only in v1; all UI strings centralized in `src/i18n/en.ts` so French can be added later (Arabic/RTL would be a separate effort) |
 | Personal logo | None — header shows name as text |
 | Project branding | Every project may have its own logo/icon, accent color and title font; shown on **all** presets |
-| Phone number | Not shown on the site; only inside the downloadable CV |
+| Phone number | Shown on the site (owner's choice): +216 90161543 |
 
 ## 3. Owner profile (source: `Mohamed_Khaled_Dridi_CV (3).pdf`, plus owner's corrections)
 
 - **Name:** Mohamed Khaled Dridi
 - **Title:** Software Engineer
 - **Education:** Engineering Degree in Software Engineering — Mediterranean Institute of Technology (MEDTECH), graduated **July 2026**. (CV still says "student / Present"; the site uses the graduated status.) Mohamed Dachraoui High School — Tunisian baccalaureate, July 2021.
-- **Contact (public):** mohamedkhaled.dridi2@gmail.com · LinkedIn `mohamed-khaled-dridi` · Upwork profile (exact URL to be confirmed by owner before launch).
+- **Contact (public):** mohamedkhaled.dridi2@gmail.com · +216 90161543 · LinkedIn https://www.linkedin.com/in/mohamed-khaled-dridi-607ba9271/ · Upwork https://www.upwork.com/freelancers/~0114fd2a77f167c7ee (URLs extracted from the CV PDF's link annotations).
 - **Experience:**
   - Renske — Multiplayer Unity Developer, Sep 2024 – Present
   - MassAnalytics — QA / Automation Intern, Jul 2024 – Sep 2024
@@ -56,7 +56,7 @@ Success criteria:
 │   │   └── experience/        one entry per role
 │   ├── content.config.ts      collection schemas (validated at build)
 │   ├── config/
-│   │   ├── site.ts            name, title, email, LinkedIn, Upwork, CV path
+│   │   ├── site.ts            name, title, email, phone, LinkedIn, Upwork, CV path
 │   │   └── presets.ts         preset definitions (see §5)
 │   ├── i18n/en.ts             all UI strings
 │   ├── components/            Hero, ProjectGrid, ProjectCard, ProjectFilters, Skills,
@@ -174,7 +174,7 @@ The four CV projects are created as `draft: true` entries with text from the CV 
 - **Education:** MEDTECH (July 2026) and high school.
 - **Achievements & hackathons.**
 - **CV download:** `public/cv/Mohamed_Khaled_Dridi_CV.pdf`.
-- **Contact (v1):** email button + copy-to-clipboard, LinkedIn, Upwork (prominent on `/freelance`). No contact form in v1.
+- **Contact (v1):** email button + copy-to-clipboard, phone (`tel:` link + WhatsApp-friendly international format), LinkedIn, Upwork (prominent on `/freelance`). No contact form in v1.
 
 ## 9. SEO & sharing
 Each preset sets its own `<title>`, meta description, and Open Graph/Twitter image so shared links preview with the preset's headline. Project pages get their own title/description/cover as OG image.
@@ -202,6 +202,6 @@ Each preset sets its own `<title>`, meta description, and Open Graph/Twitter ima
 - Custom domain
 
 ## 13. Open items for the owner
-- Exact Upwork profile URL.
 - For each project when revived: logo, cover, screenshots, video link, description, links.
-- Optional: profile photo (hero), preferred accent color.
+- Profile photo for the hero (owner will provide; hero shows a styled placeholder until then).
+- Optional: preferred accent color.
