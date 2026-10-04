@@ -19,7 +19,7 @@ const { homePath } = Astro.props;
         <li><a href={site.cv} download>{t.nav.cv}</a></li>
       </ul>
     </nav>
-    <button type="button" class="scheme-toggle" data-scheme-toggle aria-label={t.theme.toggle}>
+    <button type="button" class="scheme-toggle" data-scheme-toggle data-js-only aria-label={t.theme.toggle}>
       <span class="scheme-toggle__icon" aria-hidden="true"></span>
     </button>
   </div>

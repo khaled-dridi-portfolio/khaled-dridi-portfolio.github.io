@@ -40,6 +40,14 @@ test('job primary CTA downloads the CV; freelance links to Upwork', () => {
   expect(PRESETS.freelance.secondaryCta?.href).toBe(site.upwork);
 });
 
+test('headlines match the approved spec', () => {
+  expect(PRESETS.default.headline).toBe('Software engineer — games, web & apps');
+  expect(PRESETS.freelance.headline).toBe('I build your game, website or app — start to finish');
+  expect(PRESETS.freelance.subline).toBe('Upwork Rising Talent · 0% client dissatisfaction');
+  expect(PRESETS.job.headline).toBe('Software engineer — open to full-time roles');
+  expect(PRESETS.gamedev.headline).toBe('Game developer — 2D & 3D');
+});
+
 test('getPreset falls back to default for unknown or prototype keys', () => {
   expect(getPreset('job').key).toBe('job');
   for (const k of [null, undefined, '', 'nope', 'constructor', '__proto__', 'toString']) expect(getPreset(k).key).toBe('default');

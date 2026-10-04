@@ -15,7 +15,7 @@ const { src, title, label, kind, poster, fallbackHref = src } = Astro.props;
 ---
 <div class="facade" data-facade={kind} data-embed={src} data-title={title}>
   {poster && <Image class="facade__poster" src={poster} alt="" width={1280} />}
-  <button type="button" class="facade__load btn btn--primary" data-facade-load>
+  <button type="button" class="facade__load btn btn--primary" data-facade-load data-js-only>
     <span aria-hidden="true">▶</span> {label}
   </button>
   <noscript><a class="facade__fallback" href={fallbackHref} target="_blank" rel="noopener">{label}</a></noscript>

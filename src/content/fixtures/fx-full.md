@@ -25,3 +25,7 @@ links:
 featured: true
 ---
 This is the fixture story with **bold** text.
+
+```csharp
+public class PlayerController : MonoBehaviour { public float moveSpeed = 5f; public float jumpForce = 12f; private Rigidbody2D body; }
+```

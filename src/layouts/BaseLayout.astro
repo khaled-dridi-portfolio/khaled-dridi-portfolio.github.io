@@ -57,6 +57,7 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
     <script is:inline>
       (function () {
         var root = document.documentElement;
+        root.classList.add('js');
         if (root.dataset.theme === 'auto') {
           var from = new URLSearchParams(location.search).get('from');
           var themes = JSON.parse(root.dataset.presetThemes || '{}');

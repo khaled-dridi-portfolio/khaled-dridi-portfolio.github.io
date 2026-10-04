@@ -8,7 +8,7 @@ import { t } from '../i18n';
     <p class="contact__intro">{t.contact.intro}</p>
     <div class="contact__email">
       <a class="btn btn--primary" href={`mailto:${site.email}`} data-contact="email">{site.email}</a>
-      <button type="button" class="btn btn--ghost" data-copy={site.email} data-copied-label={t.contact.copied}>{t.contact.copy}</button>
+      <button type="button" class="btn btn--ghost" data-copy={site.email} data-js-only data-copied-label={t.contact.copied}>{t.contact.copy}</button>
     </div>
     <ul class="contact__links">
       <li><a href={site.phoneHref} data-contact="phone">{site.phone}</a></li>

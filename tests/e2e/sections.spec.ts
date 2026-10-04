@@ -9,7 +9,7 @@ test('home renders every section', async ({ page }) => {
 
 test('hero shows headline, name and CTAs', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.hero__headline')).toHaveText('I build games, websites and apps.');
+  await expect(page.locator('.hero__headline')).toHaveText('Software engineer — games, web & apps');
   await expect(page.locator('.hero__name')).toHaveText('Mohamed Khaled Dridi');
   await expect(page.locator('[data-primary-cta]')).toHaveAttribute('href', '#contact');
   await expect(page.locator('[data-avatar-placeholder]')).toHaveText('KD');

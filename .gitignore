@@ -4,3 +4,4 @@ dist-test/
 .astro/
 test-results/
 playwright-report/
+dist-demo/

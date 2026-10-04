@@ -10,6 +10,7 @@ export function initFacades(): void {
         iframe.allowFullscreen = true;
         el.replaceChildren(iframe);
         el.classList.add('is-loaded');
+        iframe.focus(); // the clicked button is gone; keep keyboard users in place
       },
       { once: true },
     );

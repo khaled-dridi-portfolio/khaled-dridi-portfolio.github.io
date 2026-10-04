@@ -15,6 +15,8 @@ a { color: var(--accent); }
 h1, h2, h3 { font-family: var(--font-heading); line-height: 1.15; margin: 0 0 0.5em; }
 ul, ol { padding: 0; margin: 0; list-style: none; }
 [hidden] { display: none !important; }
+/* Controls that do nothing without JavaScript (the inline script in BaseLayout adds .js). */
+html:not(.js) [data-js-only] { display: none !important; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 .container { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }

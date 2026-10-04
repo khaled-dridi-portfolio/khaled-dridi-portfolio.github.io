@@ -24,6 +24,31 @@ test('video loads only after clicking play', async ({ page }) => {
   await expect(page.locator('[data-facade="video"] iframe')).toHaveAttribute('src', 'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0');
 });
 
+test('keyboard focus moves into the embed after it loads', async ({ page }) => {
+  await page.goto('/projects/fx-full/');
+  await page.locator('[data-facade="video"] [data-facade-load]').focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('[data-facade="video"] iframe')).toHaveCount(1);
+  expect(await page.evaluate(() => document.activeElement?.tagName)).toBe('IFRAME');
+});
+
+test('initial-letter fallback is readable (contrast ≥ 4.5:1)', async ({ page }) => {
+  for (const path of ['/projects/fx-minimal/', '/projects/fx-minimal/?from=gamedev']) {
+    await page.goto(path);
+    const ratio = await page.locator('[data-project-logo-fallback]').evaluate((el) => {
+      const s = getComputedStyle(el);
+      const rgb = (c: string) => (c.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
+      const lum = ([r, g, b]: number[]) => {
+        const f = (v: number) => ((v /= 255) <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+        return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+      };
+      const [a, b] = [lum(rgb(s.color)), lum(rgb(s.backgroundColor))];
+      return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+    });
+    expect(ratio, path).toBeGreaterThanOrEqual(4.5);
+  }
+});
+
 test('play-in-browser embed loads only after clicking', async ({ page }) => {
   await page.goto('/projects/fx-full/');
   const facade = page.locator('[data-facade="play"]');
