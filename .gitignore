@@ -5,3 +5,7 @@ dist-test/
 test-results/
 playwright-report/
 dist-demo/
+
+# Raw project material (only the README is tracked)
+/project-assets/*
+!/project-assets/README.md
