@@ -1,7 +1,10 @@
 # Portfolio — notes for Claude
 
-Mohamed Khaled Dridi's portfolio. Astro 7 static site, deployed to GitHub Pages by
-`.github/workflows/` on push to `main`. Work happens on `feat/portfolio`. Never commit or push
+Mohamed Khaled Dridi's portfolio. Astro 7 static site, live at https://khaled-dridi-portfolio.github.io
+(repo `khaled-dridi-portfolio/khaled-dridi-portfolio.github.io`, a GitHub org owned by the owner's
+`Khaled-Dridi` account). Work happens on `feat/portfolio`; publish = fast-forward `main` and push both.
+**Pushes do not trigger the deploy workflow in this repo (cause unknown)** — after pushing, run
+`gh workflow run deploy.yml --ref main` and watch it with `gh run watch`. Never commit or push
 unless the owner asks. The README has the full owner guide (frontmatter fields, presets).
 
 ## Commands
