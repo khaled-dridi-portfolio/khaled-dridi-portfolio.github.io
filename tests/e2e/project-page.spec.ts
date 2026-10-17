@@ -118,7 +118,7 @@ test('draft projects have no page', async ({ request }) => {
 
 test('og:image uses the cover when present, default otherwise', async ({ page }) => {
   await page.goto('/projects/fx-full/');
-  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /^https:\/\/khaled-dridi-portfolio.github.io\/_astro\/.+\.jpg$/);
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /^https:\/\/khaled-dridi-portfolio\.github\.io\/_astro\/.+\.jpg$/);
   await page.goto('/projects/fx-minimal/');
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://khaled-dridi-portfolio.github.io/og/default.png');
 });
