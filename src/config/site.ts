@@ -9,5 +9,5 @@ export const site = {
   linkedin: 'https://www.linkedin.com/in/mohamed-khaled-dridi-607ba9271/',
   upwork: 'https://www.upwork.com/freelancers/~0114fd2a77f167c7ee',
   cv: '/cv/Mohamed_Khaled_Dridi_CV.pdf',
-  url: 'https://khaled-dridi.github.io',
+  url: 'https://khaled-dridi-portfolio.github.io',
 } as const;

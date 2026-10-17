@@ -1,6 +1,6 @@
 # Mohamed Khaled Dridi — Portfolio
 
-Live: https://khaled-dridi.github.io/
+Live: https://khaled-dridi-portfolio.github.io/
 
 | Link | Audience |
 |---|---|

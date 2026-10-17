@@ -16,8 +16,8 @@ for (const preset of Object.values(PRESETS)) {
     await page.goto(preset.path);
     await expect(page).toHaveTitle(preset.seo.title);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', preset.seo.description);
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://khaled-dridi.github.io${preset.path}`);
-    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', `https://khaled-dridi.github.io/og/${preset.key}.png`);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://khaled-dridi-portfolio.github.io${preset.path}`);
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', `https://khaled-dridi-portfolio.github.io/og/${preset.key}.png`);
   });
 }
 
