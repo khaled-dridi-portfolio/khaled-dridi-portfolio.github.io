@@ -2,6 +2,14 @@ export const en = {
   skipLink: 'Skip to content',
   nav: { projects: 'Projects', experience: 'Experience', contact: 'Contact', cv: 'CV', allProjects: 'All projects', main: 'Main' },
   theme: { toggle: 'Toggle light and dark mode' },
+  view: {
+    label: 'Site view',
+    normal: 'Normal',
+    game: 'Game',
+    gameLong: ' dev',
+    hint: 'New: try the 🎮 Game dev view of this portfolio',
+    dismiss: 'Dismiss',
+  },
   sections: {
     projects: 'Projects',
     skills: 'Skills',
@@ -38,6 +46,7 @@ export const en = {
   },
   project: {
     back: 'Back to projects',
+    partOf: 'Part of',
     links: { live: 'Live site', itch: 'Play on itch.io', store: 'Store page', github: 'GitHub' },
     client: 'Client',
     playVideo: 'Play video',

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { selectForPreset, publishedProjects, allTags, formatDateRange, type ProjectLike } from '../../src/lib/projects';
+import { selectForPreset, publishedProjects, childProjects, allTags, formatDateRange, type ProjectLike } from '../../src/lib/projects';
 
 const p = (id: string, category: ProjectLike['data']['category'], start: string | undefined, extra: Partial<ProjectLike['data']> = {}): ProjectLike => ({
   id,
@@ -44,4 +44,14 @@ test('formatDateRange', () => {
   expect(formatDateRange(new Date('2024-03-01'), new Date('2024-06-01'), 'Present')).toBe('Mar 2024 – Jun 2024');
   expect(formatDateRange(new Date('2024-03-01'), new Date('2024-03-20'), 'Present')).toBe('Mar 2024');
   expect(formatDateRange(undefined, undefined, 'Present')).toBe('');
+});
+
+test('childProjects returns published parts, alphabetical by title', () => {
+  const list = [
+    p('z', 'game', '2024-01-01', { parent: 'col', title: 'Zebra' }),
+    p('a', 'game', '2020-01-01', { parent: 'col', title: 'Apple' }),
+    p('d', 'game', '2024-01-01', { parent: 'col', title: 'Draft', draft: true }),
+    p('o', 'game', '2024-01-01', { parent: 'other', title: 'Other' }),
+  ];
+  expect(childProjects(list, 'col').map((x) => x.id)).toEqual(['a', 'z']);
 });

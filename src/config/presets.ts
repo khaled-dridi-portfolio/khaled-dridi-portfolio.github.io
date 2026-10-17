@@ -46,7 +46,7 @@ export const PRESETS: Record<PresetKey, Preset> = {
     secondaryCta: { label: 'See my work', href: '#projects' },
     stats: [],
     projectCategories: CATEGORIES,
-    projectOrder: [],
+    projectOrder: ['plavox'],
     sections: ['hero', 'projects', 'skills', 'experience', 'education', 'achievements', 'contact'],
   },
   freelance: {
@@ -64,7 +64,7 @@ export const PRESETS: Record<PresetKey, Preset> = {
     secondaryCta: { label: 'Hire me on Upwork', href: site.upwork },
     stats: [],
     projectCategories: CATEGORIES,
-    projectOrder: [],
+    projectOrder: ['plavox'],
     sections: ['hero', 'projects', 'skills', 'achievements', 'experience', 'contact'],
   },
   job: {
@@ -82,7 +82,7 @@ export const PRESETS: Record<PresetKey, Preset> = {
     secondaryCta: { label: 'LinkedIn', href: site.linkedin },
     stats: [],
     projectCategories: CATEGORIES,
-    projectOrder: [],
+    projectOrder: ['plavox'],
     sections: ['hero', 'experience', 'projects', 'skills', 'education', 'achievements', 'contact'],
   },
   gamedev: {
@@ -104,7 +104,7 @@ export const PRESETS: Record<PresetKey, Preset> = {
       { label: 'Best Project wins', value: '2' },
     ],
     projectCategories: ['game', 'simulation'],
-    projectOrder: [],
+    projectOrder: ['plavox'],
     sections: ['hero', 'projects', 'skills', 'experience', 'achievements', 'contact'],
   },
 };

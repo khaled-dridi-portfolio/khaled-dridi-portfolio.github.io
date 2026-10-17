@@ -1,11 +1,22 @@
 ---
 import { site } from '../config/site';
+import { PRESETS } from '../config/presets';
 import { t } from '../i18n';
+import type { PresetKey } from '../lib/types';
 
 interface Props {
   homePath: string;
+  /** The preset this page belongs to; undefined on project/catalog pages (decided in the browser from ?from=). */
+  from?: PresetKey;
 }
-const { homePath } = Astro.props;
+const { homePath, from } = Astro.props;
+// Normal ↔ Game dev switch. On a preset home it moves between preset pages; elsewhere it reloads
+// the same page with or without ?from=gamedev (theme.ts keeps a clean preset's ?from= on "Normal").
+const game = PRESETS.gamedev;
+const pathname = Astro.url.pathname;
+const current = from ? PRESETS[from].theme : undefined;
+const normalHref = from ? (current === 'clean' ? PRESETS[from].path : PRESETS.default.path) : pathname;
+const gameHref = from ? game.path : `${pathname}?from=${game.key}`;
 ---
 <header class="site-header">
   <div class="container site-header__inner">
@@ -19,6 +30,18 @@ const { homePath } = Astro.props;
         <li><a href={site.cv} download>{t.nav.cv}</a></li>
       </ul>
     </nav>
+    <div class="view-switch-wrap">
+      <div class="view-switch" role="group" aria-label={t.view.label} data-view-switch>
+        <a class="view-switch__opt" href={normalHref} data-view="clean" data-keep-clean-from={from ? undefined : ''} aria-current={current === 'clean' ? 'page' : undefined}>{t.view.normal}</a>
+        <a class="view-switch__opt" href={gameHref} data-view="game" aria-current={current === 'game' ? 'page' : undefined}>
+          <span aria-hidden="true">🎮</span> {t.view.game}<span class="view-switch__long">{t.view.gameLong}</span>
+        </a>
+      </div>
+      <div class="view-hint" role="status" data-view-hint hidden>
+        <a class="view-hint__link" href={gameHref} data-view-hint-link>{t.view.hint}</a>
+        <button type="button" class="view-hint__close" aria-label={t.view.dismiss} data-view-hint-close>×</button>
+      </div>
+    </div>
     <button type="button" class="scheme-toggle" data-scheme-toggle data-js-only aria-label={t.theme.toggle}>
       <span class="scheme-toggle__icon" aria-hidden="true"></span>
     </button>

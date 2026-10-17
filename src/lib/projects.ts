@@ -2,7 +2,7 @@ import type { Category } from './types';
 
 export interface ProjectLike {
   id: string;
-  data: { category: Category; startDate?: Date; featured: boolean; draft: boolean; tags: string[] };
+  data: { category: Category; startDate?: Date; featured: boolean; draft: boolean; tags: string[]; parent?: string; title?: string };
 }
 
 export function byNewest(a: ProjectLike, b: ProjectLike): number {
@@ -11,6 +11,13 @@ export function byNewest(a: ProjectLike, b: ProjectLike): number {
 
 export function publishedProjects<T extends ProjectLike>(projects: T[]): T[] {
   return projects.filter((p) => !p.data.draft).sort(byNewest);
+}
+
+/** Published projects that belong to `parentId`, alphabetical by title. */
+export function childProjects<T extends ProjectLike>(projects: T[], parentId: string): T[] {
+  return publishedProjects(projects)
+    .filter((p) => p.data.parent === parentId)
+    .sort((a, b) => (a.data.title ?? a.id).localeCompare(b.data.title ?? b.id));
 }
 
 export function selectForPreset<T extends ProjectLike>(

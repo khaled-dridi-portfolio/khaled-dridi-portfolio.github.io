@@ -33,4 +33,5 @@ writeFileSync(`${dir}/logo.png`, png(256, 256, [255, 59, 92]));
 writeFileSync(`${dir}/cover.png`, png(1280, 720, [34, 211, 238]));
 writeFileSync(`${dir}/shot-1.png`, png(1280, 720, [57, 255, 136]));
 writeFileSync(`${dir}/shot-2.png`, png(1280, 720, [236, 72, 153]));
+writeFileSync(`${dir}/tall.png`, png(720, 1280, [250, 204, 21]));
 console.log('fixture images written to', dir);

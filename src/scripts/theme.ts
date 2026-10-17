@@ -37,3 +37,50 @@ export function applyFromPreset(): void {
     a.setAttribute('href', url.pathname + url.search + url.hash);
   });
 }
+
+// Keep in sync with tests/e2e/view-switch.spec.ts.
+const VIEW_HINT_KEY = 'viewHintSeen';
+
+function markHintSeen(): void {
+  try {
+    localStorage.setItem(VIEW_HINT_KEY, '1');
+  } catch {
+    // Storage blocked: the hint may show again on the next visit.
+  }
+}
+
+/** Marks the active Normal / Game dev option, and shows first-time visitors a one-off hint about the game view. */
+export function initViewSwitch(): void {
+  const root = document.documentElement;
+  const theme = root.dataset.theme;
+  const from = root.dataset.from;
+  const themes = JSON.parse(root.dataset.presetThemes ?? '{}') as Record<string, string>;
+
+  document.querySelectorAll<HTMLAnchorElement>('[data-view-switch] [data-view]').forEach((a) => {
+    if (a.dataset.view === theme) a.setAttribute('aria-current', 'page');
+    else a.removeAttribute('aria-current');
+    // On project pages, "Normal" keeps a clean preset the visitor came from (e.g. ?from=freelance).
+    if (a.dataset.keepCleanFrom !== undefined && from && themes[from] === 'clean') {
+      const url = new URL(a.getAttribute('href') ?? '', location.href);
+      url.searchParams.set('from', from);
+      a.setAttribute('href', url.pathname + url.search);
+    }
+    a.addEventListener('click', markHintSeen);
+  });
+
+  const hint = document.querySelector<HTMLElement>('[data-view-hint]');
+  if (!hint || theme === 'game') return;
+  let seen = false;
+  try {
+    seen = localStorage.getItem(VIEW_HINT_KEY) === '1';
+  } catch {
+    seen = true; // Can't remember a dismissal, so don't risk showing it on every page.
+  }
+  if (seen) return;
+  hint.hidden = false;
+  markHintSeen(); // Shown once: the next page won't show it again.
+  hint.querySelector('[data-view-hint-link]')?.addEventListener('click', markHintSeen);
+  hint.querySelector('[data-view-hint-close]')?.addEventListener('click', () => {
+    hint.hidden = true;
+  });
+}

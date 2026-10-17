@@ -24,7 +24,7 @@ for (const preset of Object.values(PRESETS)) {
 test('gamedev shows only game/simulation projects and hides the QA role', async ({ page }) => {
   await page.goto('/gamedev/');
   const ids = await page.locator('#projects [data-project-card]').evaluateAll((els) => els.map((e) => (e as HTMLElement).dataset.id));
-  expect(ids).toEqual(['fx-full']);
+  expect(ids).toEqual(['fx-full', 'fx-part-b', 'fx-part-a']);
   await expect(page.locator('#experience')).not.toContainText('MassAnalytics');
   await page.goto('/');
   await expect(page.locator('#experience')).toContainText('MassAnalytics');

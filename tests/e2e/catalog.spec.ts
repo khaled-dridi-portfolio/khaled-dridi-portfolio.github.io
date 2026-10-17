@@ -6,16 +6,16 @@ const ids = (page: import('@playwright/test').Page) =>
 
 test('lists every published project with a count', async ({ page }) => {
   await page.goto('/projects/');
-  await expect(page.locator(list)).toHaveCount(3);
-  await expect(page.locator('[data-count]')).toHaveText('3 projects');
+  await expect(page.locator(list)).toHaveCount(5);
+  await expect(page.locator('[data-count]')).toHaveText('5 projects');
   await expect(page.locator('[data-highlighted] [data-project-card][data-id="fx-full"]')).toHaveCount(1);
 });
 
 test('sorts newest and oldest first', async ({ page }) => {
   await page.goto('/projects/');
-  expect(await ids(page)).toEqual(['fx-full', 'fx-badvideo', 'fx-minimal']);
+  expect(await ids(page)).toEqual(['fx-part-b', 'fx-part-a', 'fx-full', 'fx-badvideo', 'fx-minimal']);
   await page.locator('[data-sort]').selectOption('oldest');
-  expect(await ids(page)).toEqual(['fx-minimal', 'fx-badvideo', 'fx-full']);
+  expect(await ids(page)).toEqual(['fx-minimal', 'fx-badvideo', 'fx-full', 'fx-part-a', 'fx-part-b']);
 });
 
 test('filters by technology and category, with a no-match message', async ({ page }) => {
@@ -28,7 +28,7 @@ test('filters by technology and category, with a no-match message', async ({ pag
   await expect(page.locator('[data-count]')).toHaveText('0 projects');
   await expect(page.locator('[data-no-match]')).toBeVisible();
   await page.locator('[data-tech-filter]').selectOption('');
-  expect(await ids(page)).toEqual(['fx-full']);
+  expect(await ids(page)).toEqual(['fx-part-b', 'fx-part-a', 'fx-full']);
   await expect(page.locator('[data-no-match]')).toBeHidden();
 });
 
@@ -42,7 +42,7 @@ test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
   test('all projects visible and controls hidden', async ({ page }) => {
     await page.goto('/projects/');
-    await expect(page.locator(`${list}:visible`)).toHaveCount(3);
+    await expect(page.locator(`${list}:visible`)).toHaveCount(5);
     await expect(page.locator('[data-catalog-controls]')).toBeHidden();
   });
 });

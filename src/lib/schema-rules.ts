@@ -1,4 +1,4 @@
-export const REQUIRED_WHEN_PUBLISHED = ['summary', 'type', 'role', 'startDate'] as const;
+export const REQUIRED_WHEN_PUBLISHED = ['summary', 'type', 'role'] as const;
 
 /** Fields a project must have once `draft` is false. Drafts may be incomplete. */
 export function missingPublishedFields(data: Record<string, unknown>): string[] {

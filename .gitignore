@@ -9,3 +9,6 @@ dist-demo/
 # Raw project material (only the README is tracked)
 /project-assets/*
 !/project-assets/README.md
+!/project-assets/inbox/
+/project-assets/inbox/*
+!/project-assets/inbox/README.md

@@ -4,9 +4,14 @@ const cards = '#projects [data-project-card]';
 
 test('home grid shows published projects and hides drafts', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator(cards)).toHaveCount(3);
-  await expect(page.locator('#projects')).not.toContainText('PGard Simulator');
-  await expect(page.locator('#projects')).not.toContainText('Partagi');
+  await expect(page.locator(cards)).toHaveCount(5);
+  await expect(page.locator('#projects')).not.toContainText('Draft Fixture');
+});
+
+test('parts of another project get their own card, saying what they belong to', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator(`${cards}[data-id="fx-part-a"] [data-parent]`)).toHaveText(/^Part of Full Fixture Game/);
+  await expect(page.locator(`${cards}[data-id="fx-full"] [data-parent]`)).toHaveCount(0);
 });
 
 test('featured project is first', async ({ page }) => {
@@ -21,7 +26,7 @@ test('category chips filter the grid', async ({ page }) => {
   await expect(page.locator(`${cards}[data-id="fx-minimal"]`)).toBeVisible();
   await expect(page.locator('#projects [data-filter="web"]')).toHaveAttribute('aria-pressed', 'true');
   await page.locator('#projects [data-filter="all"]').click();
-  await expect(page.locator(`${cards}:visible`)).toHaveCount(3);
+  await expect(page.locator(`${cards}:visible`)).toHaveCount(5);
 });
 
 test('full card shows logo, accent colour, info line and features', async ({ page }) => {
@@ -54,7 +59,34 @@ test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
   test('all cards visible and filter chips hidden', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator(`${cards}:visible`)).toHaveCount(3);
+    await expect(page.locator(`${cards}:visible`)).toHaveCount(5);
     await expect(page.locator('#projects .filter-chips')).toBeHidden();
   });
 });
+
+test('vertical covers are shown whole over a blurred backdrop', async ({ page }) => {
+  await page.goto('/');
+  const media = page.locator(`${cards}[data-id="fx-part-a"] .project-card__media`);
+  await expect(media).toHaveClass(/project-card__media--portrait/);
+  await expect(media.locator('[data-card-backdrop]')).toHaveCount(1);
+  await expect(media.locator('.project-card__cover')).toHaveCSS('object-fit', 'contain');
+  await expect(media.locator('.project-card__preview')).toHaveCSS('object-fit', 'contain');
+  const wide = page.locator(`${cards}[data-id="fx-full"] .project-card__media`);
+  await expect(wide).not.toHaveClass(/project-card__media--portrait/);
+  await expect(wide.locator('[data-card-backdrop]')).toHaveCount(0);
+});
+
+for (const path of ['/', '/projects/']) {
+  test(`hovering a card plays its preview clip: ${path}`, async ({ page }) => {
+    await page.addInitScript(() => {
+      (window as unknown as { played: string[] }).played = [];
+      HTMLMediaElement.prototype.play = function () {
+        (window as unknown as { played: string[] }).played.push(this.getAttribute('src') ?? '');
+        return Promise.resolve();
+      };
+    });
+    await page.goto(path);
+    await page.locator('[data-project-card][data-id="fx-part-a"]').first().hover();
+    await expect.poll(() => page.evaluate(() => (window as unknown as { played: string[] }).played)).toContain('/projects/fx-part-a/reel.mp4');
+  });
+}

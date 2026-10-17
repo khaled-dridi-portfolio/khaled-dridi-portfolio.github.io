@@ -79,13 +79,14 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
   </head>
   <body>
     <a class="skip-link" href="#main">{t.skipLink}</a>
-    <Header homePath={homePath} />
+    <Header homePath={homePath} from={from} />
     <main id="main"><slot /></main>
     <Footer />
     <script>
-      import { initThemeToggle, applyFromPreset } from '../scripts/theme';
+      import { initThemeToggle, applyFromPreset, initViewSwitch } from '../scripts/theme';
       initThemeToggle();
       applyFromPreset();
+      initViewSwitch();
     </script>
   </body>
 </html>

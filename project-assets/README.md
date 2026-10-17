@@ -1,5 +1,8 @@
 # Project assets (raw material)
 
+> **Quickest way:** paste files into `inbox/` and tell Claude which project they're for.
+> Claude sorts them into the right place.
+
 Drop everything for a project here, in its own folder. Nothing in this folder is published or
 pushed to GitHub (it is git-ignored, except this README) — it's the raw material. When we go
 through a project together, I pick the files, optimise them and copy them into the site.

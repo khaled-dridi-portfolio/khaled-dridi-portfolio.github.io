@@ -5,18 +5,22 @@ import { t } from '../i18n';
 
 interface Props {
   images: ImageMetadata[];
+  /** Alt text per image, same order as `images`. */
+  alts?: string[];
   title: string;
 }
-const { images, title } = Astro.props;
+const { images, alts = [], title } = Astro.props;
+// Portrait screenshots (phone games) get narrower columns so two fit side by side on a phone.
+const portrait = images.every((img) => img.height > img.width);
 const full = await Promise.all(images.map((src) => getImage({ src, width: 1920 })));
 ---
 <section class="gallery" aria-labelledby="gallery-title" data-gallery>
   <h2 id="gallery-title" class="gallery__title">{t.project.gallery}</h2>
-  <ul class="gallery__grid">
+  <ul class:list={['gallery__grid', { 'gallery__grid--portrait': portrait }]}>
     {images.map((src, i) => (
       <li>
         <a class="gallery__item" href={full[i].src} data-gallery-item>
-          <Image src={src} alt={t.project.screenshot(title, i + 1)} width={640} />
+          <Image src={src} alt={alts[i] ?? t.project.screenshot(title, i + 1)} width={640} style={`--ratio: ${src.width} / ${src.height}`} />
         </a>
       </li>
     ))}

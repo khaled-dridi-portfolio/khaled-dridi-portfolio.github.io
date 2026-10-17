@@ -8,29 +8,49 @@ import TagList from '../../components/TagList.astro';
 import VideoEmbed from '../../components/VideoEmbed.astro';
 import EmbedFacade from '../../components/EmbedFacade.astro';
 import Gallery from '../../components/Gallery.astro';
-import { publishedProjects } from '../../lib/projects';
+import SubProjectList from '../../components/SubProjectList.astro';
+import { publishedProjects, childProjects } from '../../lib/projects';
 import { parseVideo } from '../../lib/video';
 import { site } from '../../config/site';
 import { t } from '../../i18n';
 
 export async function getStaticPaths() {
-  const list = publishedProjects(await getCollection('projects'));
-  return list.map((project, i) => ({
-    params: { slug: project.id },
-    props: { project, prev: list[i - 1] ?? null, next: list[i + 1] ?? null },
-  }));
+  const all = await getCollection('projects');
+  const published = publishedProjects(all);
+  return published.map((project, i) => {
+    const parentId = project.data.parent;
+    return {
+      params: { slug: project.id },
+      props: {
+        project,
+        prev: published[i - 1] ?? null,
+        next: published[i + 1] ?? null,
+        parent: parentId ? (published.find((p) => p.id === parentId) ?? null) : null,
+        children: childProjects(all, project.id),
+      },
+    };
+  });
 }
 
 interface Props {
   project: CollectionEntry<'projects'>;
   prev: CollectionEntry<'projects'> | null;
   next: CollectionEntry<'projects'> | null;
+  parent: CollectionEntry<'projects'> | null;
+  children: CollectionEntry<'projects'>[];
 }
-const { project, prev, next } = Astro.props;
+const { project, prev, next, parent, children } = Astro.props;
 const d = project.data;
 const { Content } = await render(project);
 const video = parseVideo(d.video);
-const ogImage = d.cover ? (await getImage({ src: d.cover, width: 1200, format: 'png' })).src : '/og/default.png';
+// Link previews (WhatsApp, LinkedIn…): JPG, because not every app reads WebP; cropped to the standard 1.91:1
+// (1200×630, or smaller for narrow covers, since Astro never enlarges an image). `shareImage` replaces the
+// cover here, for covers that crop badly (e.g. a portrait phone screen).
+const ogSource = d.shareImage ?? d.cover;
+const ogWidth = ogSource ? Math.min(1200, ogSource.width) : 0;
+const ogImage = ogSource
+  ? (await getImage({ src: ogSource, width: ogWidth, height: Math.round((ogWidth * 630) / 1200), fit: 'cover', format: 'jpg', quality: 85 })).src
+  : '/og/default.png';
 const linkKeys = (['live', 'itch', 'store', 'github'] as const).filter((k) => d.links[k]);
 ---
 <BaseLayout title={`${d.title} — ${site.name}`} description={d.summary ?? d.title} ogImage={ogImage} theme="auto">
@@ -39,11 +59,16 @@ const linkKeys = (['live', 'itch', 'store', 'github'] as const).filter((k) => d.
       <a class="back-link" href="/#projects" data-preset-home data-hash="#projects">← {t.project.back}</a>
 
       <header class="project-page__header">
-        <ProjectLogo title={d.title} logo={d.logo} size={72} />
+        <ProjectLogo title={d.title} logo={d.logo} background={d.logoBackground} size={72} />
         <div class="project-page__heading">
           <h1 class="project-page__title" data-title-font={d.titleFont}>{d.title}</h1>
           <ProjectMeta role={d.role} type={d.type} startDate={d.startDate} endDate={d.endDate} />
           {d.client && <p class="project-page__client">{t.project.client}: {d.client}</p>}
+          {parent && (
+            <p class="project-page__client">
+              {t.project.partOf} <a href={`/projects/${parent.id}/`} data-keep-from>{parent.data.title}</a>
+            </p>
+          )}
         </div>
       </header>
 
@@ -58,7 +83,7 @@ const linkKeys = (['live', 'itch', 'store', 'github'] as const).filter((k) => d.
       <TagList items={d.tags} />
 
       {video ? (
-        <div class="project-page__hero"><VideoEmbed video={video} title={d.title} poster={d.cover} /></div>
+        <div class="project-page__hero"><VideoEmbed video={video} title={d.title} poster={d.videoPoster ?? d.cover} /></div>
       ) : (
         d.cover && <div class="project-page__hero"><Image class="project-page__cover" src={d.cover} alt="" width={1280} /></div>
       )}
@@ -73,7 +98,9 @@ const linkKeys = (['live', 'itch', 'store', 'github'] as const).filter((k) => d.
         </div>
       )}
 
-      {d.gallery.length > 0 && <Gallery images={d.gallery} title={d.title} />}
+      {children.length > 0 && <SubProjectList projects={children} />}
+
+      {d.gallery.length > 0 && <Gallery images={d.gallery} alts={d.galleryAlt} title={d.title} />}
 
       {(prev || next) && (
         <nav class="prev-next" aria-label={t.project.more}>

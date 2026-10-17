@@ -113,12 +113,61 @@ test('unsupported video link is ignored safely', async ({ page }) => {
 });
 
 test('draft projects have no page', async ({ request }) => {
-  expect((await request.get('/projects/pgard-simulator/')).status()).toBe(404);
+  expect((await request.get('/projects/fx-draft/')).status()).toBe(404);
 });
 
 test('og:image uses the cover when present, default otherwise', async ({ page }) => {
   await page.goto('/projects/fx-full/');
-  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /^https:\/\/khaled-dridi\.github\.io\/_astro\/.+\.png$/);
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /^https:\/\/khaled-dridi\.github\.io\/_astro\/.+\.jpg$/);
   await page.goto('/projects/fx-minimal/');
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://khaled-dridi.github.io/og/default.png');
+});
+
+test('og:image uses shareImage instead of a portrait cover', async ({ page }) => {
+  await page.goto('/projects/fx-part-a/');
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /\/_astro\/cover\.[^/]+\.jpg$/);
+});
+
+test('parent project lists its parts, linking with the preset', async ({ page }) => {
+  await page.goto('/projects/fx-full/?from=gamedev');
+  const links = page.locator('[data-subprojects] .subproject__link');
+  await expect(links).toHaveText(['Part A Fixture', 'Part B Fixture']);
+  await expect(links.first()).toHaveAttribute('href', '/projects/fx-part-a/?from=gamedev');
+});
+
+test('part page says which project it belongs to', async ({ page }) => {
+  await page.goto('/projects/fx-part-a/?from=gamedev');
+  await expect(page.locator('.back-link')).toHaveAttribute('href', '/gamedev/#projects');
+  await expect(page.locator('.project-page__client a')).toHaveAttribute('href', '/projects/fx-full/?from=gamedev');
+  await expect(page.locator('[data-subprojects]')).toHaveCount(0);
+});
+
+test('local video autoplays muted, with a poster and its real size', async ({ page }) => {
+  await page.goto('/projects/fx-part-a/');
+  const video = page.locator('main video.video-file');
+  await expect(video).toHaveAttribute('preload', 'metadata');
+  await expect(video).toHaveAttribute('playsinline', '');
+  await expect(video).toHaveAttribute('width', '720');
+  await expect(video).toHaveAttribute('height', '1280');
+  await expect(video).toHaveAttribute('data-orientation', 'portrait');
+  await expect(video).toHaveAttribute('poster', /^\/_astro\/.+/);
+  await expect(video).toHaveJSProperty('muted', true);
+  const box = await video.boundingBox();
+  expect(box!.height).toBeLessThanOrEqual(900 * 0.8 + 1);
+});
+
+test('gallery uses the given alt text and keeps each image shape', async ({ page }) => {
+  await page.goto('/projects/fx-part-a/');
+  const imgs = page.locator('[data-gallery-item] img');
+  await expect(imgs.first()).toHaveAttribute('alt', 'Tall fixture screenshot');
+  await expect(imgs.nth(1)).toHaveAttribute('alt', 'Part A Fixture — screenshot 2');
+  const ratios = await imgs.evaluateAll((els) => els.map((e) => e.getBoundingClientRect()).map((r) => r.width / r.height));
+  expect(ratios[0]).toBeCloseTo(720 / 1280, 1);
+  expect(ratios[1]).toBeCloseTo(1280 / 720, 1);
+});
+
+test('no autoplay for visitors who ask for reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/projects/fx-part-a/');
+  await expect(page.locator('main video.video-file')).toHaveJSProperty('muted', false);
 });

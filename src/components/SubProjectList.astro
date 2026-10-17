@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ProjectLogo from './ProjectLogo.astro';
+import { t } from '../i18n';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+}
+const { projects } = Astro.props;
+const heading = t.projects.categories[projects[0].data.category];
+---
+<section class="subprojects" aria-labelledby="subprojects-title" data-subprojects>
+  <h2 id="subprojects-title" class="subprojects__title">{heading}</h2>
+  <ul class="subprojects__grid">
+    {projects.map((p) => (
+      <li class="subproject" style={p.data.accentColor ? `--project-accent: ${p.data.accentColor}` : undefined}>
+        <ProjectLogo title={p.data.title} logo={p.data.logo} background={p.data.logoBackground} size={56} />
+        <div class="subproject__body">
+          <h3 class="subproject__title">
+            <a class="subproject__link" href={`/projects/${p.id}/`} data-keep-from>{p.data.title}</a>
+          </h3>
+          {p.data.summary && <p class="subproject__summary">{p.data.summary}</p>}
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
