@@ -1,8 +1,8 @@
 ---
 company: MassAnalytics
 role: QA / Automation Intern
-startDate: 2024-07-01
-endDate: 2024-09-01
+startDate: 2024-06-01
+endDate: 2024-08-01
 hideOn: [gamedev]
 highlights:
   - Developed Selenium-based automation scripts for web applications
