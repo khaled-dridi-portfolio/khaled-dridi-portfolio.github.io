@@ -20,14 +20,20 @@ export function childProjects<T extends ProjectLike>(projects: T[], parentId: st
     .sort((a, b) => (a.data.title ?? a.id).localeCompare(b.data.title ?? b.id));
 }
 
+/** Moves games after everything else, keeping the order inside each group. */
+export function gamesLast<T extends ProjectLike>(projects: T[]): T[] {
+  return [...projects.filter((p) => p.data.category !== 'game'), ...projects.filter((p) => p.data.category === 'game')];
+}
+
 export function selectForPreset<T extends ProjectLike>(
   projects: T[],
-  opts: { categories: readonly Category[]; order: readonly string[] },
+  opts: { categories: readonly Category[]; order: readonly string[]; gamesLast?: boolean },
 ): T[] {
   const visible = publishedProjects(projects).filter((p) => opts.categories.includes(p.data.category));
   const pinned = opts.order.flatMap((id) => visible.filter((p) => p.id === id));
   const rest = visible.filter((p) => !opts.order.includes(p.id));
-  return [...pinned, ...rest.filter((p) => p.data.featured), ...rest.filter((p) => !p.data.featured)];
+  const ordered = [...pinned, ...rest.filter((p) => p.data.featured), ...rest.filter((p) => !p.data.featured)];
+  return opts.gamesLast ? gamesLast(ordered) : ordered;
 }
 
 export function allTags(projects: ProjectLike[]): string[] {

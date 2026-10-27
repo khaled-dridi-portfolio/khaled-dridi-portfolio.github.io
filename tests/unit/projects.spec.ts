@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { selectForPreset, publishedProjects, childProjects, allTags, formatDateRange, type ProjectLike } from '../../src/lib/projects';
+import { selectForPreset, publishedProjects, childProjects, allTags, formatDateRange, gamesLast, type ProjectLike } from '../../src/lib/projects';
 
 const p = (id: string, category: ProjectLike['data']['category'], start: string | undefined, extra: Partial<ProjectLike['data']> = {}): ProjectLike => ({
   id,
@@ -28,6 +28,17 @@ test('pinned ids come first in the given order, unknown ids are ignored', () => 
 test('featured projects come before the rest, each group newest first', () => {
   const list = [p('a', 'game', '2024-01-01'), p('f-old', 'game', '2020-01-01', { featured: true }), p('f-new', 'game', '2021-01-01', { featured: true })];
   expect(selectForPreset(list, { categories: ['game'], order: [] }).map((x) => x.id)).toEqual(['f-new', 'f-old', 'a']);
+});
+
+test('gamesLast moves games after other projects, keeping each group in order', () => {
+  const list = [p('g1', 'game', '2025-01-01'), p('w', 'web', '2024-01-01'), p('g2', 'game', '2023-01-01'), p('s', 'simulation', '2022-01-01')];
+  expect(gamesLast(list).map((x) => x.id)).toEqual(['w', 's', 'g1', 'g2']);
+});
+
+test('selectForPreset with gamesLast puts pinned and featured games after other projects', () => {
+  const list = [p('pin', 'game', '2020-01-01'), p('f', 'game', '2025-01-01', { featured: true }), p('w', 'web', '2021-01-01'), p('a', 'app', '2022-01-01')];
+  expect(selectForPreset(list, { categories: ['game', 'web', 'app'], order: ['pin'], gamesLast: true }).map((x) => x.id)).toEqual(['a', 'w', 'pin', 'f']);
+  expect(selectForPreset(list, { categories: ['game', 'web', 'app'], order: ['pin'] }).map((x) => x.id)).toEqual(['pin', 'f', 'a', 'w']);
 });
 
 test('pinned drafts stay hidden', () => {

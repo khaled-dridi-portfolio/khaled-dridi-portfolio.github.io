@@ -2,12 +2,18 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
-import { publishedProjects, allTags } from '../../lib/projects';
+import { selectForPreset, allTags } from '../../lib/projects';
 import { site } from '../../config/site';
+import { getPreset } from '../../config/presets';
 import { t } from '../../i18n';
-import type { Category } from '../../lib/types';
+import { CATEGORIES, type Category } from '../../lib/types';
 
-const projects = publishedProjects(await getCollection('projects'));
+// Same order as the normal home page: pinned projects, then games last.
+const projects = selectForPreset(await getCollection('projects'), {
+  categories: CATEGORIES,
+  order: getPreset('default').projectOrder,
+  gamesLast: true,
+});
 const featured = projects.filter((p) => p.data.featured);
 const tags = allTags(projects);
 const categories = [...new Set(projects.map((p) => p.data.category))] as Category[];
@@ -39,13 +45,6 @@ const categories = [...new Set(projects.map((p) => p.data.category))] as Categor
             <select data-tech-filter>
               <option value="">{t.projects.anyTech}</option>
               {tags.map((tag) => <option value={tag}>{tag}</option>)}
-            </select>
-          </label>
-          <label class="catalog__field">
-            <span>{t.projects.sort}</span>
-            <select data-sort>
-              <option value="newest">{t.projects.sortNewest}</option>
-              <option value="oldest">{t.projects.sortOldest}</option>
             </select>
           </label>
           <p class="catalog__count" aria-live="polite" data-count>{t.projects.count(projects.length)}</p>

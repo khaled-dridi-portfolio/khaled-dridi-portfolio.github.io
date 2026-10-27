@@ -1,7 +1,5 @@
 import { t } from '../i18n';
 
-const startTime = (el: HTMLElement) => (el.dataset.start ? Date.parse(el.dataset.start) : 0);
-
 export function initCatalog(): void {
   const root = document.querySelector<HTMLElement>('[data-catalog]');
   const list = root?.querySelector<HTMLElement>('[data-catalog-list]');
@@ -12,22 +10,18 @@ export function initCatalog(): void {
   const cards = [...list.querySelectorAll<HTMLElement>('[data-project-card]')];
   const chips = [...controls.querySelectorAll<HTMLButtonElement>('[data-filter]')];
   const techSelect = controls.querySelector<HTMLSelectElement>('[data-tech-filter]')!;
-  const sortSelect = controls.querySelector<HTMLSelectElement>('[data-sort]')!;
   const count = controls.querySelector<HTMLElement>('[data-count]')!;
   const noMatch = root.querySelector<HTMLElement>('[data-no-match]')!;
   let category = 'all';
 
   const apply = () => {
     const tech = techSelect.value;
-    const direction = sortSelect.value === 'oldest' ? 1 : -1;
-    const sorted = [...cards].sort((a, b) => direction * (startTime(a) - startTime(b)));
     let visible = 0;
-    for (const card of sorted) {
+    for (const card of cards) {
       const matchesCategory = category === 'all' || card.dataset.category === category;
       const matchesTech = !tech || (card.dataset.tags ?? '').split('|').includes(tech);
       card.hidden = !(matchesCategory && matchesTech);
       if (!card.hidden) visible++;
-      list.append(card);
     }
     count.textContent = t.projects.count(visible);
     noMatch.hidden = visible > 0;
@@ -41,5 +35,4 @@ export function initCatalog(): void {
     }),
   );
   techSelect.addEventListener('change', apply);
-  sortSelect.addEventListener('change', apply);
 }

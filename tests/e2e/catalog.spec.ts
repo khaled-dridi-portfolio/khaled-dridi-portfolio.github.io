@@ -11,11 +11,10 @@ test('lists every published project with a count', async ({ page }) => {
   await expect(page.locator('[data-highlighted] [data-project-card][data-id="fx-full"]')).toHaveCount(1);
 });
 
-test('sorts newest and oldest first', async ({ page }) => {
+test('lists other projects before games, with no date sort', async ({ page }) => {
   await page.goto('/projects/');
-  expect(await ids(page)).toEqual(['fx-part-b', 'fx-part-a', 'fx-full', 'fx-badvideo', 'fx-minimal']);
-  await page.locator('[data-sort]').selectOption('oldest');
-  expect(await ids(page)).toEqual(['fx-minimal', 'fx-badvideo', 'fx-full', 'fx-part-a', 'fx-part-b']);
+  expect(await ids(page)).toEqual(['fx-badvideo', 'fx-minimal', 'fx-full', 'fx-part-b', 'fx-part-a']);
+  await expect(page.locator('[data-sort]')).toHaveCount(0);
 });
 
 test('filters by technology and category, with a no-match message', async ({ page }) => {
@@ -28,7 +27,7 @@ test('filters by technology and category, with a no-match message', async ({ pag
   await expect(page.locator('[data-count]')).toHaveText('0 projects');
   await expect(page.locator('[data-no-match]')).toBeVisible();
   await page.locator('[data-tech-filter]').selectOption('');
-  expect(await ids(page)).toEqual(['fx-part-b', 'fx-part-a', 'fx-full']);
+  expect(await ids(page)).toEqual(['fx-full', 'fx-part-b', 'fx-part-a']);
   await expect(page.locator('[data-no-match]')).toBeHidden();
 });
 

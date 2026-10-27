@@ -18,7 +18,9 @@ unless the owner asks. The README has the full owner guide (frontmatter fields, 
 ## How the site is put together
 
 - Projects: `src/content/projects/<id>.md` (id = URL `/projects/<id>/`). Schema in `src/content.config.ts`.
-  `draft: false` requires summary, type, role, tags (startDate optional — undated projects sort last).
+  `draft: false` requires summary, type, role, tags (startDate optional — never shown, only orders projects; undated ones sort last).
+- Project order: normal presets (`/`, `/job/`, `/freelance/`, `/projects/`) pin `projectOrder` then put games last
+  (`gamesLast` in `src/config/presets.ts`); `/gamedev/` keeps games first. Owner wants no dates on projects.
 - Images: `src/assets/projects/<id>/` (WebP). Videos/clips: `public/projects/<id>/` (MP4, H.264, `+faststart`).
 - Fields added this project (all optional): `parent` (game belongs to a collection, e.g. `plavox`;
   still gets its own card, shows "Part of …"), `galleryAlt` (alt per gallery image), `logoBackground`

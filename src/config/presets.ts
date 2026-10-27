@@ -27,6 +27,8 @@ export interface Preset {
   projectCategories: readonly Category[];
   /** Project ids pinned to the top, in this order. Others follow (featured first, then newest). */
   projectOrder: readonly string[];
+  /** Show web, app and simulation projects before games. */
+  gamesLast: boolean;
   sections: readonly SectionKey[];
 }
 
@@ -46,7 +48,8 @@ export const PRESETS: Record<PresetKey, Preset> = {
     secondaryCta: { label: 'See my work', href: '#projects' },
     stats: [],
     projectCategories: CATEGORIES,
-    projectOrder: ['plavox'],
+    projectOrder: ['autoqa', 'partagi', 'plavox'],
+    gamesLast: true,
     sections: ['hero', 'projects', 'skills', 'experience', 'education', 'achievements', 'contact'],
   },
   freelance: {
@@ -64,7 +67,8 @@ export const PRESETS: Record<PresetKey, Preset> = {
     secondaryCta: { label: 'Hire me on Upwork', href: site.upwork },
     stats: [],
     projectCategories: CATEGORIES,
-    projectOrder: ['plavox'],
+    projectOrder: ['autoqa', 'partagi', 'plavox'],
+    gamesLast: true,
     sections: ['hero', 'projects', 'skills', 'achievements', 'experience', 'contact'],
   },
   job: {
@@ -77,12 +81,13 @@ export const PRESETS: Record<PresetKey, Preset> = {
     },
     eyebrow: 'Software Engineer',
     headline: 'Software engineer — open to full-time roles',
-    subline: 'Engineering degree in Software Engineering, MEDTECH (July 2026). Multiplayer Unity developer at Renske since 2024.',
+    subline: 'Engineering degree in Software Engineering, MEDTECH (July 2026). Final-year internship at Inetum, building AI-driven test automation (AutoQA).',
     primaryCta: { label: 'Download CV', href: site.cv, download: true },
     secondaryCta: { label: 'LinkedIn', href: site.linkedin },
     stats: [],
     projectCategories: CATEGORIES,
-    projectOrder: ['plavox'],
+    projectOrder: ['autoqa', 'partagi', 'plavox'],
+    gamesLast: true,
     sections: ['hero', 'experience', 'projects', 'skills', 'education', 'achievements', 'contact'],
   },
   gamedev: {
@@ -105,6 +110,7 @@ export const PRESETS: Record<PresetKey, Preset> = {
     ],
     projectCategories: ['game', 'simulation'],
     projectOrder: ['plavox'],
+    gamesLast: false,
     sections: ['hero', 'projects', 'skills', 'experience', 'achievements', 'contact'],
   },
 };

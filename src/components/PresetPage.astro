@@ -19,6 +19,7 @@ const preset = getPreset(Astro.props.presetKey);
 const projects = selectForPreset(await getCollection('projects'), {
   categories: preset.projectCategories,
   order: preset.projectOrder,
+  gamesLast: preset.gamesLast,
 });
 const experience = (await getCollection('experience'))
   .filter((e) => !e.data.hideOn.includes(preset.key))

@@ -28,7 +28,7 @@ Stop any running `astro preview` before `npm test` (`npx astro preview stop`) �
 2. Put images in `src/assets/projects/<project-id>/` and reference them relative to the Markdown file, e.g. `../../assets/projects/<project-id>/cover.png`.
 3. Put preview clips and local videos in `public/projects/<project-id>/` and reference them from the site root, e.g. `/projects/<project-id>/preview.mp4`. Put a WebGL build in a **`play/` subfolder** (`public/projects/<project-id>/play/index.html` → `playEmbed: /projects/<project-id>/play/`) — a build's `index.html` placed directly in `public/projects/<project-id>/` would collide with the generated project page.
 4. Long videos: upload to YouTube (unlisted is fine) and paste the link in `video`.
-5. Keep `draft: true` until it's ready. When you set `draft: false`, the build requires `summary`, `type`, `role` and at least one `tags` entry (`startDate` is optional: without it the card shows no date and the project sorts last) — the error message names any missing field.
+5. Keep `draft: true` until it's ready. When you set `draft: false`, the build requires `summary`, `type`, `role` and at least one `tags` entry (`startDate` is optional and never shown on the site — it only sets the order; undated projects sort last) — the error message names any missing field.
 6. Commit and push to `main`. GitHub Actions deploys in about a minute.
 
 A project with `parent` keeps its own card and page, which say "Part of <parent>", and it is also listed on the parent's page (under "Games" etc.). Example: the Plavox games (`parent: plavox`). A local `video` autoplays muted when the page opens (not for visitors who prefer reduced motion).

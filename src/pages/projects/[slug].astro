@@ -62,7 +62,7 @@ const linkKeys = (['live', 'itch', 'store', 'github'] as const).filter((k) => d.
         <ProjectLogo title={d.title} logo={d.logo} background={d.logoBackground} size={72} />
         <div class="project-page__heading">
           <h1 class="project-page__title" data-title-font={d.titleFont}>{d.title}</h1>
-          <ProjectMeta role={d.role} type={d.type} startDate={d.startDate} endDate={d.endDate} />
+          <ProjectMeta role={d.role} type={d.type} />
           {d.client && <p class="project-page__client">{t.project.client}: {d.client}</p>}
           {parent && (
             <p class="project-page__client">

@@ -18,9 +18,9 @@ test('hero shows headline, name and CTAs', async ({ page }) => {
 test('experience lists CV roles newest first with dates', async ({ page }) => {
   await page.goto('/');
   const items = page.locator('#experience [data-experience]');
-  await expect(items).toHaveCount(5);
-  await expect(items.first()).toContainText('Bootcamp Instructor');
-  await expect(page.locator('#experience [data-experience="renske"]')).toContainText('Sep 2024 – Present');
+  await expect(items).toHaveCount(7);
+  await expect(items.first()).toContainText('AI / QA Automation Engineer Intern');
+  await expect(page.locator('#experience [data-experience="renske"]')).toContainText('Sep 2024 – Jan 2026');
 });
 
 test('skills, education and achievements come from the CV', async ({ page }) => {

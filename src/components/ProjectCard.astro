@@ -23,7 +23,6 @@ const portrait = d.cover ? d.cover.height > d.cover.width : false;
   data-id={project.id}
   data-category={d.category}
   data-tags={d.tags.join('|')}
-  data-start={d.startDate?.toISOString() ?? ''}
   style={d.accentColor ? `--project-accent: ${d.accentColor}` : undefined}
 >
   <div class:list={['project-card__media', { 'project-card__media--portrait': portrait }]}>
@@ -44,7 +43,7 @@ const portrait = d.cover ? d.cover.height > d.cover.width : false;
         <a class="project-card__link" href={`/projects/${project.id}/?from=${from}`} data-keep-from>{d.title}</a>
       </h3>
     </div>
-    <ProjectMeta role={d.role} type={d.type} startDate={d.startDate} endDate={d.endDate} />
+    <ProjectMeta role={d.role} type={d.type} />
     {parent && <p class="project-card__parent" data-parent>{t.project.partOf} {parent.data.title}</p>}
     {d.summary && <p class="project-card__summary">{d.summary}</p>}
     <TagList items={d.features} label={t.projects.features} variant="feature" />

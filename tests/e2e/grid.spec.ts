@@ -14,8 +14,11 @@ test('parts of another project get their own card, saying what they belong to', 
   await expect(page.locator(`${cards}[data-id="fx-full"] [data-parent]`)).toHaveCount(0);
 });
 
-test('featured project is first', async ({ page }) => {
+test('normal view lists other projects before games; game view leads with the featured game', async ({ page }) => {
   await page.goto('/');
+  const order = await page.locator(cards).evaluateAll((els) => els.map((e) => (e as HTMLElement).dataset.id));
+  expect(order).toEqual(['fx-badvideo', 'fx-minimal', 'fx-full', 'fx-part-b', 'fx-part-a']);
+  await page.goto('/gamedev/');
   await expect(page.locator(cards).first()).toHaveAttribute('data-id', 'fx-full');
 });
 
@@ -36,7 +39,7 @@ test('full card shows logo, accent colour, info line and features', async ({ pag
   await expect(card).toHaveAttribute('style', /--project-accent:\s*#ff3b5c/);
   await expect(card.locator('.project-meta')).toContainText('Solo developer');
   await expect(card.locator('.project-meta')).toContainText('Freelance');
-  await expect(card.locator('.project-meta')).toContainText('Jan 2025 – Jun 2025');
+  await expect(card.locator('.project-meta')).not.toContainText('2025');
   await expect(card).toContainText('Online multiplayer');
 });
 
